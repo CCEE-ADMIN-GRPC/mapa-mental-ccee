@@ -1,6 +1,6 @@
 
 import { useMemo, useState, useRef } from 'react';
-import { Search, Command, ChevronDown, Layers3, Network, Zap, Building2, Factory, Eye, SlidersHorizontal, Plus, Minus, LocateFixed, Orbit, Compass, PanelRightClose, ArrowUpRight, BookOpen, Sparkles, Clock3, GitBranch, X, Moon, Sun, GraduationCap } from 'lucide-react';
+import { Search, ChevronDown, Layers3, Network, Zap, Building2, Factory, Eye, SlidersHorizontal, Plus, Minus, LocateFixed, Orbit, Compass, PanelRightClose, ArrowUpRight, BookOpen, Sparkles, Clock3, GitBranch, X, Moon, Sun, GraduationCap } from 'lucide-react';
 
 const nodes = [
   { id:'root', title:'Decreto 5.163', short:'Regulamentação da comercialização de energia elétrica', kind:'norma', layer:'institucional', env:'NEUTRO', level:0, x:50,y:46,z:0, complexity:2, article:'Decreto nº 5.163, de 30 de julho de 2004', summary:'Regulamenta a comercialização de energia elétrica, o processo de outorga de concessões e de autorizações de geração de energia elétrica.' },
@@ -67,7 +67,7 @@ export default function App(){
   const backFacing=mode==='3D'&&Math.cos(camera.x*Math.PI/180)*Math.cos(camera.y*Math.PI/180)<0;
   return <main className={`app-shell ${dark?'dark':''}`}>
     <header className="topbar">
-      <label className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Busque um conceito, artigo ou tema…"/><kbd><Command size={11}/> K</kbd></label>
+      <label className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Busque um conceito, artigo ou tema…"/></label>
       <div className="top-actions"><button className="persona-select"><span className="avatar"><Eye size={14}/></span>{personas.find(p=>p.id===persona)?.label}<ChevronDown size={14}/><select aria-label="Selecionar persona" value={persona} onChange={e=>setPersona(e.target.value)}>{personas.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></button><div className="mode-switch"><button className={mode==='2D'?'active':''} onClick={()=>changeMode('2D')}><Network size={15}/> 2D</button><button className={mode==='3D'?'active':''} onClick={()=>changeMode('3D')}><Orbit size={15}/> 3D</button></div><button className="icon-button" title={dark?'Ativar tema claro':'Ativar tema escuro'} aria-label={dark?'Ativar tema claro':'Ativar tema escuro'} onClick={toggleTheme}>{dark?<Sun size={17}/>:<Moon size={17}/>}</button></div>
     </header>
     <div className="workspace">
