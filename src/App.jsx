@@ -74,7 +74,21 @@ export default function App(){
   const filtered=useMemo(()=>nodes.filter(n=>n.title.toLowerCase().includes(query.toLowerCase())||n.short.toLowerCase().includes(query.toLowerCase())),[query]);
   const visible=(n)=>activeLayers.includes(n.layer)||n.id==='root';
   const positionedNodes=useMemo(()=>{
-    if(mode!=='3D'||!stageSize.width||!stageSize.height)return nodes;
+    if(!stageSize.width||!stageSize.height)return nodes;
+    const compact2D=mode==='2D'&&stageSize.width/zoom<1080;
+    if(compact2D){
+      const compactPositions={
+        root:[50,46],instituicoes:[50,20],comercializacao:[20,43],
+        acl:[12,70],acr:[45,70],lastro:[76,34],penalidades:[88,62],
+        leiloes:[46,88],quiz:[12,82]
+      };
+      const edgePadding=Math.min(25,(115/stageSize.width)*100);
+      return nodes.map(n=>{
+        const [x,y]=compactPositions[n.id]||[n.x,n.y];
+        return {...n,x:Math.max(edgePadding,Math.min(100-edgePadding,x)),y};
+      });
+    }
+    if(mode!=='3D')return nodes;
     const spreadX=Math.min(1.3,Math.max(1,1500/stageSize.width));
     const sidePadding=Math.min(18,(125*camera.zoom/stageSize.width)*100);
     const turnedOver=Math.cos(camera.x*Math.PI/180)*Math.cos(camera.y*Math.PI/180)<0;
@@ -87,7 +101,7 @@ export default function App(){
       if(n.id==='leiloes'||n.id==='quiz')y=Math.min(98,y+6);
       return {...n,x:Math.max(sidePadding,Math.min(100-sidePadding,x)),y};
     });
-  },[mode,stageSize,camera.x,camera.y,camera.zoom]);
+  },[mode,stageSize,camera.x,camera.y,camera.zoom,zoom]);
   const positionedById=useMemo(()=>new Map(positionedNodes.map(n=>[n.id,n])),[positionedNodes]);
   const pick=(id)=>{setSelected(id);setDrawer(true)};
   const toggleLayer=(id)=>setActiveLayers(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);
