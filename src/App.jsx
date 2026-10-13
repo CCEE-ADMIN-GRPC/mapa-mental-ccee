@@ -1,5 +1,5 @@
 
-import { useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { Search, ChevronDown, Layers3, Network, Zap, Building2, Factory, Eye, SlidersHorizontal, Plus, Minus, LocateFixed, Orbit, Compass, PanelRightClose, ArrowUpRight, BookOpen, Sparkles, Clock3, GitBranch, X, Moon, Sun, GraduationCap } from 'lucide-react';
 
 const nodes = [
@@ -33,9 +33,21 @@ export default function App(){
   const [dark,setDark]=useState(()=>localStorage.getItem('mapa-theme')==='dark');
   const [camera,setCamera]=useState({x:17,y:-20,panX:0,panY:0,zoom:1});
   const drag=useRef(null);
+  const stageRef=useRef(null);
+  const [stageSize,setStageSize]=useState({width:0,height:0});
   const focusOrigin=useRef(null);
   const [focusedNode,setFocusedNode]=useState(null);
   const [focusOffset,setFocusOffset]=useState({x:0,y:0,scale:1});
+  useEffect(()=>{
+    const stage=stageRef.current;
+    if(!stage||typeof ResizeObserver==='undefined')return;
+    const observer=new ResizeObserver(([entry])=>{
+      const {width,height}=entry.contentRect;
+      setStageSize(size=>size.width===width&&size.height===height?size:{width,height});
+    });
+    observer.observe(stage);
+    return ()=>observer.disconnect();
+  },[]);
   const resetCamera=()=>setCamera({x:17,y:-20,panX:0,panY:0,zoom:1});
   const onPointerDown=(e)=>{if(mode!=='3D'||e.target.closest('button'))return;drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,panX:camera.panX,panY:camera.panY,rotX:camera.x,rotY:camera.y,button:e.button};e.currentTarget.setPointerCapture(e.pointerId)};
   const onPointerMove=(e)=>{if(!drag.current||drag.current.id!==e.pointerId)return;const d=drag.current;const dx=e.clientX-d.x,dy=e.clientY-d.y;if(d.button===2||e.shiftKey)setCamera(c=>({...c,panX:d.panX+dx,panY:d.panY+dy}));else setCamera(c=>({...c,y:d.rotY+dx*.45,x:Math.max(-5,Math.min(75,d.rotX-dy*.35))}))};
@@ -61,6 +73,22 @@ export default function App(){
   const changeMode=next=>{if(focusOrigin.current?.mode==='3D')setCamera(focusOrigin.current.camera);focusOrigin.current=null;setFocusedNode(null);setFocusOffset({x:0,y:0,scale:1});setMode(next)};
   const filtered=useMemo(()=>nodes.filter(n=>n.title.toLowerCase().includes(query.toLowerCase())||n.short.toLowerCase().includes(query.toLowerCase())),[query]);
   const visible=(n)=>activeLayers.includes(n.layer)||n.id==='root';
+  const positionedNodes=useMemo(()=>{
+    if(mode!=='3D'||!stageSize.width||!stageSize.height)return nodes;
+    const spreadX=Math.min(1.3,Math.max(1,1500/stageSize.width));
+    const sidePadding=Math.min(18,(125*camera.zoom/stageSize.width)*100);
+    const turnedOver=Math.cos(camera.x*Math.PI/180)*Math.cos(camera.y*Math.PI/180)<0;
+    return nodes.map(n=>{
+      let x=50+(n.x-50)*spreadX;
+      let y=n.y;
+      if(n.id==='acl')x=26.5-(11.5*spreadX);
+      if(n.id==='acr')x=26.5+(11.5*spreadX);
+      if(n.id==='leiloes')x=turnedOver?55:31;
+      if(n.id==='leiloes'||n.id==='quiz')y=Math.min(98,y+6);
+      return {...n,x:Math.max(sidePadding,Math.min(100-sidePadding,x)),y};
+    });
+  },[mode,stageSize,camera.x,camera.y,camera.zoom]);
+  const positionedById=useMemo(()=>new Map(positionedNodes.map(n=>[n.id,n])),[positionedNodes]);
   const pick=(id)=>{setSelected(id);setDrawer(true)};
   const toggleLayer=(id)=>setActiveLayers(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);
   const current=nodes.find(n=>n.id===selected)||nodes[0];
@@ -75,8 +103,8 @@ export default function App(){
       <section className={`canvas-area ${mode==='3D'?'scene-3d':''}`} aria-label={`Mapa regulatório em ${mode}`}>
         <div className="canvas-toolbar"><div className="crumb"><span>Mapa mental</span><span className="crumb-sep">/</span><strong>{mode} · Visão geral</strong></div><div className="canvas-tools">{mode==='3D'?<><button className="square-tool" onClick={()=>setCamera(c=>({...c,zoom:Math.max(.55,c.zoom-.1)}))}><Minus size={15}/></button><span className="zoom-label">{Math.round(camera.zoom*100)}%</span><button className="square-tool" onClick={()=>setCamera(c=>({...c,zoom:Math.min(2.2,c.zoom+.1)}))}><Plus size={15}/></button><button className="square-tool" onClick={resetCamera} title="Recentralizar câmera"><LocateFixed size={15}/></button></>:<><button className="square-tool" onClick={()=>setZoom(Math.max(.8,zoom-.1))}><Minus size={15}/></button><span className="zoom-label">{Math.round(zoom*100)}%</span><button className="square-tool" onClick={()=>setZoom(Math.min(1.2,zoom+.1))}><Plus size={15}/></button><button className="square-tool" onClick={()=>{setZoom(1);pick('root')}} title="Recentralizar"><LocateFixed size={15}/></button></>}</div></div>
         {query&&<div className="search-results"><div className="result-head">{filtered.length} resultados</div>{filtered.map(n=><button key={n.id} onClick={()=>{pick(n.id);setQuery('')}}><Search size={14}/><span><strong>{n.title}</strong><small>{n.article}</small></span><ArrowUpRight size={14}/></button>)}</div>}
-        <div className={`map-stage ${mode==='3D'?'interactive-3d':''} ${backFacing?'back-facing':''} ${focusedNode&&mode==='2D'?'focus-active':''}`} style={{'--map-scale':zoom,'--rot-x':`${camera.x}deg`,'--rot-y':`${camera.y}deg`,'--pan-x':`${camera.panX}px`,'--pan-y':`${camera.panY}px`,'--camera-zoom':camera.zoom,'--focus-x':`${focusOffset.x}px`,'--focus-y':`${focusOffset.y}px`,'--focus-scale':focusOffset.scale}} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} onContextMenu={e=>{if(mode==='3D')e.preventDefault()}} onWheel={onWheel}><div className="map-world"><div className="map-grid"/><svg className="edges" viewBox="0 0 1000 700" preserveAspectRatio="none">{edges.filter(([a,b])=>visible(nodes.find(n=>n.id===a))&&visible(nodes.find(n=>n.id===b))).map(([a,b])=>{const na=nodes.find(n=>n.id===a),nb=nodes.find(n=>n.id===b);return <line key={a+b} x1={na.x*10} y1={na.y*7} x2={nb.x*10} y2={nb.y*7} className={`edge ${a==='comercializacao'||b==='comercializacao'?'edge-active':''}`}/>})}</svg>
-          <div className="map-nodes">{nodes.filter(visible).map((n,i)=><button key={n.id} onClick={()=>pick(n.id)} onDoubleClick={e=>toggleNodeFocus(e,n)} title={focusedNode===n.id?'Clique duas vezes para voltar ao enquadramento':'Clique duas vezes para aproximar e focar'} className={`map-node ${n.kind} ${selected===n.id?'selected':''} ${focusedNode===n.id?'focused':''} ${persona!=='todos'&&((persona==='consumidor'&&n.env==='ACR')||(persona==='distribuidor'&&n.env==='ACL'))?'dimmed':''}`} style={{left:`${n.x}%`,top:`${n.y}%`,'--z':`${n.z}px`,'--delay':`${i*45}ms`}}><span className={`node-face-content ${backFacing?'back-content':''}`}>{backFacing?<span className="node-back-content"><span className="node-back-kicker">EM PROFUNDIDADE</span><strong>{n.title}</strong><small>{n.article}</small><span>{nodeInsights[n.id]}</span></span>:<><span className="node-icon">{n.kind==='timeline'?<Clock3 size={15}/>:n.kind==='quiz'?<Sparkles size={15}/>:n.id==='root'?<Network size={17}/>:<GitBranch size={15}/>}</span><span className="node-copy"><strong>{n.title}</strong><small>{n.short}</small></span>{n.id==='root'&&<span className="root-badge">NORMA</span>}</>}</span></button>)}</div>
+        <div ref={stageRef} className={`map-stage ${mode==='3D'?'interactive-3d':''} ${backFacing?'back-facing':''} ${focusedNode&&mode==='2D'?'focus-active':''}`} style={{'--map-scale':zoom,'--rot-x':`${camera.x}deg`,'--rot-y':`${camera.y}deg`,'--pan-x':`${camera.panX}px`,'--pan-y':`${camera.panY}px`,'--camera-zoom':camera.zoom,'--focus-x':`${focusOffset.x}px`,'--focus-y':`${focusOffset.y}px`,'--focus-scale':focusOffset.scale}} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} onContextMenu={e=>{if(mode==='3D')e.preventDefault()}} onWheel={onWheel}><div className="map-world"><div className="map-grid"/><svg className="edges" viewBox="0 0 1000 700" preserveAspectRatio="none">{edges.filter(([a,b])=>visible(positionedById.get(a))&&visible(positionedById.get(b))).map(([a,b])=>{const na=positionedById.get(a),nb=positionedById.get(b);return <line key={a+b} x1={na.x*10} y1={na.y*7} x2={nb.x*10} y2={nb.y*7} className={`edge ${a==='comercializacao'||b==='comercializacao'?'edge-active':''}`}/>})}</svg>
+          <div className="map-nodes">{positionedNodes.filter(visible).map((n,i)=><button key={n.id} onClick={()=>pick(n.id)} onDoubleClick={e=>toggleNodeFocus(e,n)} title={focusedNode===n.id?'Clique duas vezes para voltar ao enquadramento':'Clique duas vezes para aproximar e focar'} className={`map-node ${n.kind} ${selected===n.id?'selected':''} ${focusedNode===n.id?'focused':''} ${persona!=='todos'&&((persona==='consumidor'&&n.env==='ACR')||(persona==='distribuidor'&&n.env==='ACL'))?'dimmed':''}`} style={{left:`${n.x}%`,top:`${n.y}%`,'--z':`${n.z}px`,'--delay':`${i*45}ms`}}><span className={`node-face-content ${backFacing?'back-content':''}`}>{backFacing?<span className="node-back-content"><span className="node-back-kicker">EM PROFUNDIDADE</span><strong>{n.title}</strong><small>{n.article}</small><span>{nodeInsights[n.id]}</span></span>:<><span className="node-icon">{n.kind==='timeline'?<Clock3 size={15}/>:n.kind==='quiz'?<Sparkles size={15}/>:n.id==='root'?<Network size={17}/>:<GitBranch size={15}/>}</span><span className="node-copy"><strong>{n.title}</strong><small>{n.short}</small></span>{n.id==='root'&&<span className="root-badge">NORMA</span>}</>}</span></button>)}</div>
           <div className="map-caption"><span className="caption-line"/> Relações entre temas <span className="caption-dot"/> {mode==='2D'?'Mapa topológico':'Profundidade hierárquica'}</div>
           </div>{mode==='3D'&&<><div className="view-cube"><button className="cube" onClick={resetCamera} title="Restaurar vista"><span>TOPO</span><i/><b/><em/></button><small>ARRASTE PARA ORBITAR</small></div><div className="interaction-hint"><Orbit size={13}/> Arrastar: orbitar <span>·</span> Shift + arrastar: mover <span>·</span> Scroll: zoom</div></>}
         </div>
