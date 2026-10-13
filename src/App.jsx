@@ -78,9 +78,9 @@ export default function App(){
     const compact2D=mode==='2D'&&stageSize.width/zoom<1080;
     if(compact2D){
       const compactPositions={
-        root:[50,46],instituicoes:[50,20],comercializacao:[20,43],
-        acl:[12,70],acr:[45,70],lastro:[76,34],penalidades:[88,62],
-        leiloes:[46,88],quiz:[12,82]
+        root:[55,45],instituicoes:[50,18],comercializacao:[13,43],
+        acl:[12,63],acr:[50,63],lastro:[81,32],penalidades:[88,63],
+        leiloes:[50,88],quiz:[12,88]
       };
       const edgePadding=Math.min(25,(115/stageSize.width)*100);
       return nodes.map(n=>{
