@@ -29,7 +29,7 @@ const nodeInsights = {
 };
 
 export default function App(){
-  const [mode,setMode]=useState('2D'); const [selected,setSelected]=useState('comercializacao'); const [query,setQuery]=useState(''); const [persona,setPersona]=useState('todos'); const [activeLayers,setActiveLayers]=useState(['institucional','contratual','leiloes']); const [drawer,setDrawer]=useState(true); const [zoom,setZoom]=useState(1); const [toast,setToast]=useState('');
+  const [mode,setMode]=useState('2D'); const [selected,setSelected]=useState('comercializacao'); const [query,setQuery]=useState(''); const [persona,setPersona]=useState('todos'); const [activeLayers,setActiveLayers]=useState(Object.keys(layerLabels)); const [drawer,setDrawer]=useState(true); const [zoom,setZoom]=useState(1); const [toast,setToast]=useState('');
   const [dark,setDark]=useState(()=>localStorage.getItem('mapa-theme')==='dark');
   const [camera,setCamera]=useState({x:17,y:-20,panX:0,panY:0,zoom:1});
   const drag=useRef(null);
