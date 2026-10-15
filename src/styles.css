@@ -78,10 +78,12 @@
 
 .all-category .map-stage{perspective:1000px}
 .all-category .edges .edge{fill:none}
-.all-category .canvas-area.scene-3d{overflow:auto;overflow-anchor:none;overscroll-behavior:contain}
+.all-category .canvas-area.scene-3d{overflow:hidden;overflow-anchor:none;overscroll-behavior:none}
 .all-category .canvas-area.scene-3d .map-stage{min-height:1000px;flex:none}
 .all-category .canvas-area.scene-3d .map-stage{overflow-anchor:none}
 .all-category .canvas-area.scene-3d{scrollbar-width:none;-ms-overflow-style:none}
 .all-category .canvas-area.scene-3d::-webkit-scrollbar{display:none}
-.all-category .canvas-area.scene-3d .canvas-toolbar{position:sticky;top:0;z-index:10}
-.all-category .canvas-area.scene-3d .bottom-bar{position:sticky;bottom:0;z-index:10}
+.all-category .canvas-area.scene-3d .canvas-toolbar{position:relative;z-index:10}
+.all-category .canvas-area.scene-3d .bottom-bar{position:absolute;left:0;right:0;bottom:0;z-index:10}
+.all-category .canvas-area.scene-3d .view-cube{bottom:104px}
+.all-category .canvas-area.scene-3d .interaction-hint{bottom:82px}

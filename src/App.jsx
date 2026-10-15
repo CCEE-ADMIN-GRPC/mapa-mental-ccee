@@ -82,7 +82,10 @@ export default function App(){
     clickTimers.current.forEach(timer=>window.clearTimeout(timer));
     clickTimers.current.clear();
   },[]);
-  const resetCamera=()=>setCamera({x:17,y:-20,panX:0,panY:0,zoom:1});
+  const resetCamera=()=>setCamera({x:17,y:-20,panX:0,panY:persona==='todos' ? -150 : 0,zoom:persona==='todos' ? .65 : 1});
+  useEffect(()=>{
+    if(mode==='3D'&&persona==='todos')setCamera(c=>({...c,panY:-150,zoom:Math.min(c.zoom,.65)}));
+  },[mode,persona]);
   const onPointerDown=(e)=>{if(mode!=='3D'||e.target.closest('button'))return;drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,panX:camera.panX,panY:camera.panY,rotX:camera.x,rotY:camera.y,button:e.button};e.currentTarget.setPointerCapture(e.pointerId)};
   const onPointerMove=(e)=>{if(!drag.current||drag.current.id!==e.pointerId)return;const d=drag.current;const dx=e.clientX-d.x,dy=e.clientY-d.y;if(d.button===2||e.shiftKey)setCamera(c=>({...c,panX:d.panX+dx,panY:d.panY+dy}));else setCamera(c=>({...c,y:d.rotY+dx*.45,x:Math.max(-5,Math.min(75,d.rotX-dy*.35))}))};
   const onPointerUp=(e)=>{if(drag.current?.id===e.pointerId)drag.current=null};
