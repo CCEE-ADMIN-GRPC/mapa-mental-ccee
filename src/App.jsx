@@ -86,7 +86,7 @@ export default function App(){
   const onPointerDown=(e)=>{if(mode!=='3D'||e.target.closest('button'))return;drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,panX:camera.panX,panY:camera.panY,rotX:camera.x,rotY:camera.y,button:e.button};e.currentTarget.setPointerCapture(e.pointerId)};
   const onPointerMove=(e)=>{if(!drag.current||drag.current.id!==e.pointerId)return;const d=drag.current;const dx=e.clientX-d.x,dy=e.clientY-d.y;if(d.button===2||e.shiftKey)setCamera(c=>({...c,panX:d.panX+dx,panY:d.panY+dy}));else setCamera(c=>({...c,y:d.rotY+dx*.45,x:Math.max(-5,Math.min(75,d.rotX-dy*.35))}))};
   const onPointerUp=(e)=>{if(drag.current?.id===e.pointerId)drag.current=null};
-  const onWheel=(e)=>{if(mode!=='3D')return;e.preventDefault();setCamera(c=>({...c,zoom:Math.max(.55,Math.min(2.2,c.zoom*(e.deltaY<0?1.08:.92)))}))};
+  const onWheel=(e)=>{if(mode!=='3D')return;e.preventDefault();e.stopPropagation();setCamera(c=>({...c,zoom:Math.max(.55,Math.min(2.2,c.zoom*(e.deltaY<0?1.08:.92)))}))};
   const toggleNodeFocus=(e,node)=>{
     e.stopPropagation();
     if(focusedNode===node.id){if(focusOrigin.current?.mode==='3D')setCamera(focusOrigin.current.camera);setFocusedNode(null);setFocusOffset({x:0,y:0,scale:1});focusOrigin.current=null;return}
