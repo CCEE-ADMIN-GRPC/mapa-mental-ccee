@@ -14,6 +14,35 @@ const nodes = [
   { id:'quiz',title:'Posso migrar para o ACL?',short:'Decisão interativa',kind:'quiz',layer:'contratual',env:'ACL',level:3,x:7,y:91,z:-155,complexity:2,article:'Consulte a legislação vigente',summary:'A elegibilidade para o mercado livre depende da legislação e regulamentação vigentes. Use esta trilha como orientação de estudo.'},
 ];
 const edges = [['root','instituicoes'],['root','comercializacao'],['root','lastro'],['root','penalidades'],['comercializacao','acl'],['comercializacao','acr'],['acr','leiloes'],['acl','quiz'],['lastro','penalidades']];
+const allCategoryNodes = [
+  {id:'root',title:'Decreto n\u00ba 5.163/2004',short:'Comercializa\u00e7\u00e3o de energia',detailText:'Marco regulat\u00f3rio da comercializa\u00e7\u00e3o de energia el\u00e9trica.',kind:'norma',layer:'institucional',env:'NEUTRO',level:0,x:50,y:50,z:0,article:'Decreto n\u00ba 5.163, de 30 de julho de 2004'},
+  {id:'finalidade',title:'Finalidade',short:'Regras e concess\u00f5es',detailText:'\u2022 Regulamenta a comercializa\u00e7\u00e3o\n\u2022 Disciplina concess\u00f5es e autoriza\u00e7\u00f5es de gera\u00e7\u00e3o\n\u2022 Aplica-se ao Sistema Interligado Nacional (SIN)',kind:'conceito',layer:'institucional',env:'NEUTRO',level:1,x:29,y:10,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'finalidade-detalhe',title:'Finalidade do decreto',short:'Organiza o setor no SIN',detailText:'O decreto organiza as regras de comercializa\u00e7\u00e3o de energia el\u00e9trica e disciplina concess\u00f5es e autoriza\u00e7\u00f5es de gera\u00e7\u00e3o no SIN.',kind:'conceito',layer:'institucional',env:'NEUTRO',level:2,x:8,y:10,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'geracao',title:'Gera\u00e7\u00e3o de energia',short:'Lastro e modalidades',detailText:'\u2022 Vendedores comprovam lastro\n\u2022 Existente: outorgada ou em opera\u00e7\u00e3o\n\u2022 Nova: sem outorga at\u00e9 o edital\n\u2022 Gera\u00e7\u00e3o distribu\u00edda:\n  \u2022 Ligada \u00e0 rede do comprador\n  \u2022 Chamada p\u00fablica: at\u00e9 10% da carga\n  \u2022 Aproxima produ\u00e7\u00e3o e consumo',kind:'conceito',layer:'institucional',env:'AMBOS',level:1,x:29,y:31,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'lastro-detalhe',title:'Lastro de energia',short:'Energia para cumprir contratos',detailText:'Os vendedores precisam comprovar lastro, garantindo que tenham energia suficiente para cumprir seus contratos.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:8,y:27,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'geracao-distribuida',title:'Gera\u00e7\u00e3o distribu\u00edda',short:'Energia perto do consumo',detailText:'A energia \u00e9 produzida pr\u00f3xima ao consumidor e conectada \u00e0 rede da distribuidora, podendo ser contratada por chamada p\u00fablica.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:8,y:43,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'comercializacao',title:'Comercializa\u00e7\u00e3o',short:'Contratos e regras',detailText:'\u2022 Contratos informados, registrados, homologados ou aprovados\n\u2022 Regras: ANEEL e CCEE',kind:'conceito',layer:'contratual',env:'AMBOS',level:1,x:29,y:58,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'comercializacao-detalhe',title:'Compra e venda',short:'Contratos registrados',detailText:'A compra e venda de energia segue contratos registrados e regras definidas pelos \u00f3rg\u00e3os reguladores e pela CCEE.',kind:'conceito',layer:'contratual',env:'AMBOS',level:2,x:8,y:58,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'principios',title:'Princ\u00edpios',short:'Diretrizes do modelo',detailText:'\u2022 Seguran\u00e7a do suprimento\n\u2022 Transpar\u00eancia e publicidade\n\u2022 Competi\u00e7\u00e3o\n\u2022 Modicidade tarif\u00e1ria',kind:'conceito',layer:'penalidades',env:'AMBOS',level:1,x:29,y:83,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'principios-detalhe',title:'Princ\u00edpios do setor',short:'Seguran\u00e7a e competi\u00e7\u00e3o',detailText:'O modelo busca seguran\u00e7a do suprimento, transpar\u00eancia, publicidade, competi\u00e7\u00e3o e modicidade tarif\u00e1ria.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:8,y:83,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'ambientes',title:'Ambientes de contrata\u00e7\u00e3o',short:'ACR regulado e ACL livre',detailText:'\u2022 ACR \u2014 regulado: venda a distribuidoras por leil\u00f5es, com energia existente e nova\n\u2022 Garante atendimento ao mercado\n\u2022 ACL \u2014 livre: negocia\u00e7\u00e3o e contratos bilaterais\n\u2022 Geradores, comercializadores, importadores, exportadores e consumidores\n\u2022 Pre\u00e7os, prazos e volumes definidos pelas partes',kind:'conceito',layer:'contratual',env:'AMBOS',level:1,x:71,y:15,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'ambientes-detalhe',title:'Mercado de energia',short:'Dois ambientes',detailText:'O mercado \u00e9 dividido em dois ambientes: regulado, com contrata\u00e7\u00e3o por leil\u00f5es, e livre, com negocia\u00e7\u00e3o direta entre os participantes.',kind:'conceito',layer:'contratual',env:'AMBOS',level:2,x:92,y:12,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'acr',title:'ACR',short:'Contrata\u00e7\u00e3o por leil\u00f5es',detailText:'No Ambiente de Contrata\u00e7\u00e3o Regulada, distribuidoras compram energia principalmente por leil\u00f5es para garantir o atendimento dos consumidores.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:92,y:30,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'acl',title:'ACL',short:'Negocia\u00e7\u00e3o direta',detailText:'No Ambiente de Contrata\u00e7\u00e3o Livre, os participantes negociam diretamente pre\u00e7os, prazos, volumes e condi\u00e7\u00f5es dos contratos.',kind:'conceito',layer:'contratual',env:'ACL',level:2,x:92,y:48,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'distribuicao',title:'Distribui\u00e7\u00e3o',short:'Atendimento ao mercado',detailText:'\u2022 Distribuidoras atendem 100% do mercado contratado\n\u2022 Contratos registrados na CCEE\n\u2022 Compra priorit\u00e1ria por leil\u00f5es no ACR\n\u2022 Custos de compra influenciam tarifas',kind:'conceito',layer:'leiloes',env:'ACR',level:1,x:71,y:45,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'distribuicao-detalhe',title:'Distribuidoras',short:'Contrata\u00e7\u00e3o e tarifas',detailText:'As distribuidoras devem contratar energia suficiente para atender seu mercado, registrar contratos e considerar os custos nas tarifas.',kind:'conceito',layer:'leiloes',env:'ACR',level:2,x:92,y:64,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'agentes',title:'\u00d3rg\u00e3os e agentes envolvidos',short:'ANEEL, CCEE e MME',detailText:'\u2022 ANEEL \u2014 regula, fiscaliza e disciplina\n\u2022 CCEE \u2014 registra contratos e viabiliza a comercializa\u00e7\u00e3o\n\u2022 MME \u2014 coordena diretrizes do setor\n\u2022 Agentes \u2014 geradores, distribuidoras, comercializadores e consumidores livres',kind:'conceito',layer:'institucional',env:'AMBOS',level:1,x:71,y:75,z:-55,article:'Decreto n\u00ba 5.163/2004'},
+  {id:'agentes-detalhe',title:'Pap\u00e9is institucionais',short:'Regula\u00e7\u00e3o e opera\u00e7\u00e3o',detailText:'ANEEL regula e fiscaliza; CCEE registra e viabiliza a comercializa\u00e7\u00e3o; MME coordena diretrizes; agentes geram, distribuem, comercializam e consomem energia.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:92,y:84,z:-105,article:'Decreto n\u00ba 5.163/2004'},
+];
+const allCategoryEdges = [
+  ['root','finalidade'],['finalidade','finalidade-detalhe'],
+  ['root','geracao'],['geracao','lastro-detalhe'],['geracao','geracao-distribuida'],
+  ['root','comercializacao'],['comercializacao','comercializacao-detalhe'],
+  ['comercializacao','principios'],['principios','principios-detalhe'],
+  ['root','ambientes'],['ambientes','ambientes-detalhe'],['ambientes','acr'],['ambientes','acl'],
+  ['root','distribuicao'],['distribuicao','distribuicao-detalhe'],
+  ['root','agentes'],['agentes','agentes-detalhe'],
+];
 const layerLabels = {institucional:'Institucional',contratual:'Contratual',penalidades:'Penalidades',leiloes:'Leilões'};
 const personas = [{id:'todos',label:'Todos',icon:Eye},{id:'gerador',label:'Gerador',icon:Zap},{id:'distribuidor',label:'Distribuidor',icon:Building2},{id:'consumidor',label:'Consumidor livre',icon:Factory}];
 const nodeInsights = {
@@ -30,7 +59,8 @@ const nodeInsights = {
 
 export default function App(){
   const [mode,setMode]=useState('2D'); const [selected,setSelected]=useState('comercializacao'); const [query,setQuery]=useState(''); const [persona,setPersona]=useState('todos'); const [activeLayers,setActiveLayers]=useState(Object.keys(layerLabels)); const [drawer,setDrawer]=useState(true); const [zoom,setZoom]=useState(1); const [toast,setToast]=useState('');
-  const [dark,setDark]=useState(()=>localStorage.getItem('mapa-theme')==='dark');
+  const [dark,setDark]=useState(()=>localStorage.getItem('mapa-theme')==='dark'); const [flippedNodes,setFlippedNodes]=useState({});
+  const clickTimers=useRef(new Map());
   const [camera,setCamera]=useState({x:17,y:-20,panX:0,panY:0,zoom:1});
   const drag=useRef(null);
   const stageRef=useRef(null);
@@ -48,6 +78,10 @@ export default function App(){
     observer.observe(stage);
     return ()=>observer.disconnect();
   },[]);
+  useEffect(()=>()=>{
+    clickTimers.current.forEach(timer=>window.clearTimeout(timer));
+    clickTimers.current.clear();
+  },[]);
   const resetCamera=()=>setCamera({x:17,y:-20,panX:0,panY:0,zoom:1});
   const onPointerDown=(e)=>{if(mode!=='3D'||e.target.closest('button'))return;drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,panX:camera.panX,panY:camera.panY,rotX:camera.x,rotY:camera.y,button:e.button};e.currentTarget.setPointerCapture(e.pointerId)};
   const onPointerMove=(e)=>{if(!drag.current||drag.current.id!==e.pointerId)return;const d=drag.current;const dx=e.clientX-d.x,dy=e.clientY-d.y;if(d.button===2||e.shiftKey)setCamera(c=>({...c,panX:d.panX+dx,panY:d.panY+dy}));else setCamera(c=>({...c,y:d.rotY+dx*.45,x:Math.max(-5,Math.min(75,d.rotX-dy*.35))}))};
@@ -60,7 +94,7 @@ export default function App(){
     const stage=e.currentTarget.closest('.map-stage'),stageRect=stage.getBoundingClientRect();
     if(mode==='3D'){
       const nodeRect=e.currentTarget.getBoundingClientRect();
-      const original=focusOrigin.current.camera;
+      const targetZoom=Math.min(2.2,Math.max(camera.zoom,1.6));
       const factor=targetZoom/camera.zoom;
       setCamera(c=>({...c,zoom:targetZoom,panX:c.panX+(stageRect.left+stageRect.width/2-nodeRect.left-nodeRect.width/2)*factor,panY:c.panY+(stageRect.top+stageRect.height/2-nodeRect.top-nodeRect.height/2)*factor}));
     }else{
@@ -71,60 +105,108 @@ export default function App(){
   };
   const toggleTheme=()=>setDark(v=>{localStorage.setItem('mapa-theme',v?'light':'dark');return !v});
   const changeMode=next=>{if(focusOrigin.current?.mode==='3D')setCamera(focusOrigin.current.camera);focusOrigin.current=null;setFocusedNode(null);setFocusOffset({x:0,y:0,scale:1});setMode(next)};
-  const filtered=useMemo(()=>nodes.filter(n=>n.title.toLowerCase().includes(query.toLowerCase())||n.short.toLowerCase().includes(query.toLowerCase())),[query]);
-  const visible=(n)=>activeLayers.includes(n.layer)||n.id==='root';
+  const activeNodes=persona==='todos'?allCategoryNodes:nodes;
+  const activeEdges=persona==='todos'?allCategoryEdges:edges;
+  const filtered=useMemo(()=>activeNodes.filter(n=>n.title.toLowerCase().includes(query.toLowerCase())||n.short.toLowerCase().includes(query.toLowerCase())),[query,activeNodes]);
+  const visible=(n)=>n&&(activeLayers.includes(n.layer)||n.id==='root');
   const positionedNodes=useMemo(()=>{
-    if(!stageSize.width||!stageSize.height)return nodes;
+    if(!stageSize.width||!stageSize.height)return activeNodes;
     const compact2D=mode==='2D'&&stageSize.width/zoom<1080;
-    if(compact2D){
+    if(compact2D&&persona!=='todos'){
       const compactPositions={
         root:[55,45],instituicoes:[50,18],comercializacao:[13,43],
         acl:[12,63],acr:[50,63],lastro:[81,32],penalidades:[88,63],
         leiloes:[50,88],quiz:[12,88]
       };
       const edgePadding=Math.min(25,(115/stageSize.width)*100);
-      return nodes.map(n=>{
+      return activeNodes.map(n=>{
         const [x,y]=compactPositions[n.id]||[n.x,n.y];
         return {...n,x:Math.max(edgePadding,Math.min(100-edgePadding,x)),y};
       });
     }
-    if(mode!=='3D')return nodes;
+    if(mode!=='3D')return activeNodes;
     const spreadX=Math.min(1.3,Math.max(1,1500/stageSize.width));
-    const sidePadding=Math.min(18,(125*camera.zoom/stageSize.width)*100);
+    const sidePadding=Math.min(18,(125/stageSize.width)*100);
     const turnedOver=Math.cos(camera.x*Math.PI/180)*Math.cos(camera.y*Math.PI/180)<0;
-    return nodes.map(n=>{
+    const columnY=new Map();
+    if(persona==='todos'){
+      const columns=new Map();
+      activeNodes.forEach(n=>{
+        const column=columns.get(n.x)||[];
+        column.push(n);
+        columns.set(n.x,column);
+      });
+      columns.forEach(column=>{
+        if(column.length<2)return;
+        column.sort((a,b)=>a.y-b.y);
+        const minGap=Math.min(Math.max(21,Math.min(26,150/stageSize.height*100)),88/(column.length-1));
+        const span=(column.length-1)*minGap;
+        const center=column.reduce((sum,n)=>sum+n.y,0)/column.length;
+        const start=Math.max(6,Math.min(94-span,center-span/2));
+        column.forEach((n,index)=>columnY.set(n.id,start+index*minGap));
+      });
+    }
+    return activeNodes.map(n=>{
       let x=50+(n.x-50)*spreadX;
-      let y=n.y;
-      if(n.id==='acl')x=26.5-(11.5*spreadX);
-      if(n.id==='acr')x=26.5+(11.5*spreadX);
-      if(n.id==='leiloes')x=turnedOver?55:31;
-      if(n.id==='leiloes'||n.id==='quiz')y=Math.min(98,y+6);
+      let y=columnY.get(n.id)??n.y;
+      if(persona!=='todos'){
+        if(n.id==='acl')x=26.5-(11.5*spreadX);
+        if(n.id==='acr')x=26.5+(11.5*spreadX);
+        if(n.id==='leiloes')x=turnedOver?55:31;
+        if(n.id==='leiloes'||n.id==='quiz')y=Math.min(98,y+6);
+      }
       return {...n,x:Math.max(sidePadding,Math.min(100-sidePadding,x)),y};
     });
-  },[mode,stageSize,camera.x,camera.y,camera.zoom,zoom]);
+  },[mode,stageSize,camera.x,camera.y,zoom,persona,activeNodes]);
   const positionedById=useMemo(()=>new Map(positionedNodes.map(n=>[n.id,n])),[positionedNodes]);
   const pick=(id)=>{setSelected(id);setDrawer(true)};
+  const handleNodeClick=(node)=>{
+    pick(node.id);
+    if(persona!=='todos')return;
+    const previous=clickTimers.current.get(node.id);
+    if(previous)window.clearTimeout(previous);
+    const timer=window.setTimeout(()=>{
+      setFlippedNodes(v=>({...v,[node.id]:!v[node.id]}));
+      clickTimers.current.delete(node.id);
+    },250);
+    clickTimers.current.set(node.id,timer);
+  };
+  const handleNodeDoubleClick=(event,node)=>{
+    const pending=clickTimers.current.get(node.id);
+    if(pending){window.clearTimeout(pending);clickTimers.current.delete(node.id)}
+    toggleNodeFocus(event,node);
+  };
   const toggleLayer=(id)=>setActiveLayers(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);
-  const current=nodes.find(n=>n.id===selected)||nodes[0];
+  const current=activeNodes.find(n=>n.id===selected)||activeNodes[0];
   const backFacing=mode==='3D'&&Math.cos(camera.x*Math.PI/180)*Math.cos(camera.y*Math.PI/180)<0;
   return <main className={`app-shell ${dark?'dark':''}`}>
     <header className="topbar">
-      <label className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Busque um conceito, artigo ou tema…"/></label>
+      <label className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Pesquisar"/></label>
       <div className="top-actions"><button className="persona-select"><span className="avatar"><Eye size={14}/></span>{personas.find(p=>p.id===persona)?.label}<ChevronDown size={14}/><select aria-label="Selecionar persona" value={persona} onChange={e=>setPersona(e.target.value)}>{personas.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></button><div className="mode-switch"><button className={mode==='2D'?'active':''} onClick={()=>changeMode('2D')}><Network size={15}/> 2D</button><button className={mode==='3D'?'active':''} onClick={()=>changeMode('3D')}><Orbit size={15}/> 3D</button></div><button className="icon-button" title={dark?'Ativar tema claro':'Ativar tema escuro'} aria-label={dark?'Ativar tema claro':'Ativar tema escuro'} onClick={toggleTheme}>{dark?<Sun size={17}/>:<Moon size={17}/>}</button></div>
     </header>
-    <div className="workspace">
-      <aside className="layer-panel"><div className="panel-heading"><span>EXPLORAR</span><button className="quiet-button"><SlidersHorizontal size={15}/></button></div><div className="panel-section"><p className="section-label">CAMADAS</p>{Object.entries(layerLabels).map(([id,label])=><label className="layer-row" key={id}><input type="checkbox" checked={activeLayers.includes(id)} onChange={()=>toggleLayer(id)}/><span className={`layer-dot ${id}`}/><span>{label}</span><small>{nodes.filter(n=>n.layer===id).length}</small></label>)}</div><div className="panel-section persona-list"><p className="section-label">VER COMO</p>{personas.map(({id,label,icon:Icon})=><button key={id} className={`persona-row ${persona===id?'chosen':''}`} onClick={()=>setPersona(id)}><Icon size={15}/>{label}{persona===id&&<span className="selected-dot"/>}</button>)}</div><div className="legend"><p className="section-label">LEGENDA</p><div><i className="legend-node"/> Conceito</div><div><i className="legend-ring"/> Decisão interativa</div><div><i className="legend-line"/> Relação no decreto</div></div><div className="sidebar-foot"><span className="live-dot"/> Conteúdo em desenvolvimento</div></aside>
+    <div className={`workspace ${persona==='todos'?'all-category':''}`}>
+      <aside className="layer-panel"><div className="panel-heading"><span>EXPLORAR</span><button className="quiet-button"><SlidersHorizontal size={15}/></button></div><div className="panel-section"><p className="section-label">CAMADAS</p>{Object.entries(layerLabels).map(([id,label])=><label className="layer-row" key={id}><input type="checkbox" checked={activeLayers.includes(id)} onChange={()=>toggleLayer(id)}/><span className={`layer-dot ${id}`}/><span>{label}</span><small>{activeNodes.filter(n=>n.layer===id).length}</small></label>)}</div><div className="panel-section persona-list"><p className="section-label">VER COMO</p>{personas.map(({id,label,icon:Icon})=><button key={id} className={`persona-row ${persona===id?'chosen':''}`} onClick={()=>setPersona(id)}><Icon size={15}/>{label}{persona===id&&<span className="selected-dot"/>}</button>)}</div><div className="legend"><p className="section-label">LEGENDA</p><div><i className="legend-node"/> Conceito</div><div><i className="legend-ring"/> Decisão interativa</div><div><i className="legend-line"/> Relação no decreto</div></div></aside>
       <section className={`canvas-area ${mode==='3D'?'scene-3d':''}`} aria-label={`Mapa regulatório em ${mode}`}>
         <div className="canvas-toolbar"><div className="crumb"><span>Mapa mental</span><span className="crumb-sep">/</span><strong>{mode} · Visão geral</strong></div><div className="canvas-tools">{mode==='3D'?<><button className="square-tool" onClick={()=>setCamera(c=>({...c,zoom:Math.max(.55,c.zoom-.1)}))}><Minus size={15}/></button><span className="zoom-label">{Math.round(camera.zoom*100)}%</span><button className="square-tool" onClick={()=>setCamera(c=>({...c,zoom:Math.min(2.2,c.zoom+.1)}))}><Plus size={15}/></button><button className="square-tool" onClick={resetCamera} title="Recentralizar câmera"><LocateFixed size={15}/></button></>:<><button className="square-tool" onClick={()=>setZoom(Math.max(.8,zoom-.1))}><Minus size={15}/></button><span className="zoom-label">{Math.round(zoom*100)}%</span><button className="square-tool" onClick={()=>setZoom(Math.min(1.2,zoom+.1))}><Plus size={15}/></button><button className="square-tool" onClick={()=>{setZoom(1);pick('root')}} title="Recentralizar"><LocateFixed size={15}/></button></>}</div></div>
-        {query&&<div className="search-results"><div className="result-head">{filtered.length} resultados</div>{filtered.map(n=><button key={n.id} onClick={()=>{pick(n.id);setQuery('')}}><Search size={14}/><span><strong>{n.title}</strong><small>{n.article}</small></span><ArrowUpRight size={14}/></button>)}</div>}
-        <div ref={stageRef} className={`map-stage ${mode==='3D'?'interactive-3d':''} ${backFacing?'back-facing':''} ${focusedNode&&mode==='2D'?'focus-active':''}`} style={{'--map-scale':zoom,'--rot-x':`${camera.x}deg`,'--rot-y':`${camera.y}deg`,'--pan-x':`${camera.panX}px`,'--pan-y':`${camera.panY}px`,'--camera-zoom':camera.zoom,'--focus-x':`${focusOffset.x}px`,'--focus-y':`${focusOffset.y}px`,'--focus-scale':focusOffset.scale}} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} onContextMenu={e=>{if(mode==='3D')e.preventDefault()}} onWheel={onWheel}><div className="map-world"><div className="map-grid"/><svg className="edges" viewBox="0 0 1000 700" preserveAspectRatio="none">{edges.filter(([a,b])=>visible(positionedById.get(a))&&visible(positionedById.get(b))).map(([a,b])=>{const na=positionedById.get(a),nb=positionedById.get(b);return <line key={a+b} x1={na.x*10} y1={na.y*7} x2={nb.x*10} y2={nb.y*7} className={`edge ${a==='comercializacao'||b==='comercializacao'?'edge-active':''}`}/>})}</svg>
-          <div className="map-nodes">{positionedNodes.filter(visible).map((n,i)=><button key={n.id} onClick={()=>pick(n.id)} onDoubleClick={e=>toggleNodeFocus(e,n)} title={focusedNode===n.id?'Clique duas vezes para voltar ao enquadramento':'Clique duas vezes para aproximar e focar'} className={`map-node ${n.kind} ${selected===n.id?'selected':''} ${focusedNode===n.id?'focused':''} ${persona!=='todos'&&((persona==='consumidor'&&n.env==='ACR')||(persona==='distribuidor'&&n.env==='ACL'))?'dimmed':''}`} style={{left:`${n.x}%`,top:`${n.y}%`,'--z':`${n.z}px`,'--delay':`${i*45}ms`}}><span className={`node-face-content ${backFacing?'back-content':''}`}>{backFacing?<span className="node-back-content"><span className="node-back-kicker">EM PROFUNDIDADE</span><strong>{n.title}</strong><small>{n.article}</small><span>{nodeInsights[n.id]}</span></span>:<><span className="node-icon">{n.kind==='timeline'?<Clock3 size={15}/>:n.kind==='quiz'?<Sparkles size={15}/>:n.id==='root'?<Network size={17}/>:<GitBranch size={15}/>}</span><span className="node-copy"><strong>{n.title}</strong><small>{n.short}</small></span>{n.id==='root'&&<span className="root-badge">NORMA</span>}</>}</span></button>)}</div>
+        {query&&<div className="search-results"><div className="result-head">{filtered.length} resultados</div>{filtered.map(n=><button key={n.id} onClick={()=>{pick(n.id);if(persona==='todos')setFlippedNodes(v=>({...v,[n.id]:true}));setQuery('')}}><Search size={14}/><span><strong>{n.title}</strong><small>{n.article}</small></span><ArrowUpRight size={14}/></button>)}</div>}
+        <div ref={stageRef} className={`map-stage ${mode==='3D'?'interactive-3d':''} ${backFacing?'back-facing':''} ${focusedNode&&mode==='2D'?'focus-active':''}`} style={{'--map-scale':zoom,'--rot-x':`${camera.x}deg`,'--rot-y':`${camera.y}deg`,'--pan-x':`${camera.panX}px`,'--pan-y':`${camera.panY}px`,'--camera-zoom':camera.zoom,'--focus-x':`${focusOffset.x}px`,'--focus-y':`${focusOffset.y}px`,'--focus-scale':focusOffset.scale}} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} onContextMenu={e=>{if(mode==='3D')e.preventDefault()}} onWheel={onWheel}><div className="map-world"><div className="map-grid"/><svg className="edges" viewBox="0 0 1000 700" preserveAspectRatio="none">{activeEdges.filter(([a,b])=>visible(positionedById.get(a))&&visible(positionedById.get(b))).map(([a,b])=>{const na=positionedById.get(a),nb=positionedById.get(b),edgeClass=`edge ${a==='comercializacao'||b==='comercializacao'?'edge-active':''}`;if(persona==='todos'){const bend=(nb.x-na.x)*5;return <path key={a+b} d={`M ${na.x*10} ${na.y*7} C ${na.x*10+bend} ${na.y*7}, ${nb.x*10-bend} ${nb.y*7}, ${nb.x*10} ${nb.y*7}`} className={edgeClass}/>;}return <line key={a+b} x1={na.x*10} y1={na.y*7} x2={nb.x*10} y2={nb.y*7} className={edgeClass}/>;})}</svg>
+          <div className="map-nodes">
+            {positionedNodes.filter(visible).map((n,i)=>{
+              const showBack=persona==='todos'?Boolean(flippedNodes[n.id])!==backFacing:backFacing;
+              const cardText=n.detailText||nodeInsights[n.id]||n.summary;
+              return <button key={n.id} onClick={()=>handleNodeClick(n)} onDoubleClick={e=>handleNodeDoubleClick(e,n)} disabled={mode==='3D'} title={persona==='todos'?'Clique para selecionar e virar o card; duplo clique para focar':focusedNode===n.id?'Clique duas vezes para voltar ao enquadramento':'Clique duas vezes para aproximar e focar'} aria-label={`${n.title}: ${showBack?'verso do card':'frente do card'}`} className={`map-node ${n.kind} ${selected===n.id?'selected':''} ${focusedNode===n.id?'focused':''} ${showBack?'showing-back':''} ${persona!=='todos'&&((persona==='consumidor'&&n.env==='ACR')||(persona==='distribuidor'&&n.env==='ACL'))?'dimmed':''}`} style={{left:`${n.x}%`,top:`${n.y}%`,'--z':`${n.z}px`,'--delay':`${i*45}ms`}}>
+                <span className={`node-face-content ${showBack?'back-content':''}`}>
+                  {showBack?<span className="node-back-content"><span className="node-back-kicker">DETALHES</span><strong>{n.title}</strong>{persona!=='todos'&&<small>{n.article}</small>}<span>{cardText}</span></span>:<><span className="node-icon">{n.kind==='timeline'?<Clock3 size={15}/>:n.kind==='quiz'?<Sparkles size={15}/>:n.id==='root'?<Network size={17}/>:<GitBranch size={15}/>}</span><span className="node-copy"><strong>{n.title}</strong><small>{n.short}</small></span>{n.id==='root'&&<span className="root-badge">NORMA</span>}</>}
+                </span>
+              </button>;
+            })}
+          </div>
           <div className="map-caption"><span className="caption-line"/> Relações entre temas <span className="caption-dot"/> {mode==='2D'?'Mapa topológico':'Profundidade hierárquica'}</div>
           </div>{mode==='3D'&&<><div className="view-cube"><button className="cube" onClick={resetCamera} title="Restaurar vista"><span>TOPO</span><i/><b/><em/></button><small>ARRASTE PARA ORBITAR</small></div><div className="interaction-hint"><Orbit size={13}/> Arrastar: orbitar <span>·</span> Shift + arrastar: mover <span>·</span> Scroll: zoom</div></>}
         </div>
         <div className="bottom-bar"><a className="course-link" href="https://academy.ccee.org.br/" target="_blank" rel="noopener noreferrer"><GraduationCap size={16}/><span><strong>Aprofunde o tema</strong><small>Academy CCEE</small></span><ArrowUpRight size={14}/></a><div className="bottom-crumb"><span>Decreto 5.163</span><span>›</span><strong>{current.title}</strong></div><button className="mini-map" onClick={()=>{setZoom(1);pick('root')}} title="Minimapa"><span className="mini-line l1"/><span className="mini-line l2"/><i/><b/></button></div>
       </section>
-      {drawer&&<aside className="detail-panel"><div className="detail-top"><div><span className="section-label">DETALHE DO TEMA</span><button className="close-drawer" onClick={()=>setDrawer(false)}><PanelRightClose size={17}/></button></div><span className="category-chip"><i className={`layer-dot ${current.layer}`}/>{layerLabels[current.layer]}</span></div><div className="detail-content"><div className="detail-icon"><BookOpen size={19}/></div><h1>{current.title}</h1><p className="detail-subtitle">{current.short}</p><div className="article-ref"><span>REFERÊNCIA</span><strong>{current.article}</strong><button title="Abrir referência"><ArrowUpRight size={14}/></button></div><h3>Visão geral</h3><p className="summary">{current.summary}</p>{current.id==='leiloes'&&<div className="timeline"><span>A-5</span><i/><span>A-3</span><i/><span>A-1</span><small>Antecedência do início do fornecimento</small></div>}{current.id==='quiz'&&<div className="quiz-card"><strong>Qual perfil descreve você?</strong><button onClick={()=>setToast('Consulte os requisitos vigentes antes de tomar uma decisão.')}>Sou consumidor de energia <ArrowUpRight size={14}/></button><small>Esta trilha é educativa. Confira a regulamentação vigente.</small></div>}<button className="open-article" onClick={()=>setToast('Referência pronta para consulta no texto oficial.')}>Ver contexto no decreto <ArrowUpRight size={15}/></button><div className="related"><span>RELACIONADOS</span>{nodes.filter(n=>n.id!==current.id&&edges.some(e=>e.includes(current.id)&&e.includes(n.id))).slice(0,3).map(n=><button key={n.id} onClick={()=>pick(n.id)}>{n.title}<ArrowUpRight size={13}/></button>)}</div></div></aside>}
+      {drawer&&persona!=='todos'&&<aside className="detail-panel"><div className="detail-top"><div><span className="section-label">DETALHE DO TEMA</span><button className="close-drawer" onClick={()=>setDrawer(false)}><PanelRightClose size={17}/></button></div><span className="category-chip"><i className={`layer-dot ${current.layer}`}/>{layerLabels[current.layer]}</span></div><div className="detail-content"><div className="detail-icon"><BookOpen size={19}/></div><h1>{current.title}</h1><p className="detail-subtitle">{current.short}</p><div className="article-ref"><span>REFERÊNCIA</span><strong>{current.article}</strong><button title="Abrir referência"><ArrowUpRight size={14}/></button></div><h3>Visão geral</h3><p className="summary">{current.summary}</p>{current.id==='leiloes'&&<div className="timeline"><span>A-5</span><i/><span>A-3</span><i/><span>A-1</span><small>Antecedência do início do fornecimento</small></div>}{current.id==='quiz'&&<div className="quiz-card"><strong>Qual perfil descreve você?</strong><button onClick={()=>setToast('Consulte os requisitos vigentes antes de tomar uma decisão.')}>Sou consumidor de energia <ArrowUpRight size={14}/></button><small>Esta trilha é educativa. Confira a regulamentação vigente.</small></div>}<button className="open-article" onClick={()=>setToast('Referência pronta para consulta no texto oficial.')}>Ver contexto no decreto <ArrowUpRight size={15}/></button><div className="related"><span>RELACIONADOS</span>{activeNodes.filter(n=>n.id!==current.id&&activeEdges.some(e=>e.includes(current.id)&&e.includes(n.id))).slice(0,3).map(n=><button key={n.id} onClick={()=>pick(n.id)}>{n.title}<ArrowUpRight size={13}/></button>)}</div></div></aside>}
     </div>{toast&&<div className="toast"><span className="live-dot"/>{toast}<button onClick={()=>setToast('')}><X size={14}/></button></div>}
   </main>
 }
