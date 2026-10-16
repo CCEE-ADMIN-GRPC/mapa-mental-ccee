@@ -128,7 +128,7 @@ const generatorEdges=[
   ['gen-operacao','gen-registro'],['gen-operacao','gen-curto-prazo'],['gen-operacao','gen-riscos'],['gen-operacao','gen-servicos'],
 ];
 const layerLabels = {institucional:'Institucional',contratual:'Contratual',penalidades:'Penalidades',leiloes:'Leilões'};
-const personas = [{id:'todos',label:'Todos',icon:Eye},{id:'operacional',label:'Operacional',icon:GitBranch},{id:'gerador',label:'Gerador',icon:Zap}];
+const personas = [{id:'todos',label:'Geral',icon:Eye},{id:'operacional',label:'Operacional',icon:GitBranch},{id:'gerador',label:'Gerador',icon:Zap}];
 const nodeInsights = {
   root:'O decreto estrutura a comercialização de energia e trata de concessões e autorizações de geração. Consulte sempre a versão consolidada e as normas posteriores relacionadas.',
   instituicoes:'A regulação distribui responsabilidades entre órgãos e agentes do setor. ANEEL regula e fiscaliza; CCEE viabiliza a contabilização e liquidação das operações; ONS coordena a operação do sistema.',
