@@ -1,6 +1,6 @@
 
 import { useEffect, useLayoutEffect, useMemo, useState, useRef } from 'react';
-import { Search, ChevronDown, Layers3, Network, Zap, Building2, Factory, Eye, SlidersHorizontal, Plus, Minus, LocateFixed, Orbit, Compass, PanelRightClose, ArrowUpRight, BookOpen, Sparkles, Clock3, GitBranch, X, Moon, Sun, GraduationCap, CircleHelp, MousePointer2, Move3d } from 'lucide-react';
+import { Search, ChevronDown, Layers3, Network, Zap, Eye, SlidersHorizontal, Plus, Minus, LocateFixed, Orbit, Compass, PanelRightClose, ArrowUpRight, BookOpen, Sparkles, Clock3, GitBranch, X, Moon, Sun, GraduationCap, CircleHelp, MousePointer2, Move3d } from 'lucide-react';
 
 const nodes = [
   { id:'root', title:'Decreto 5.163', short:'Regulamentação da comercialização de energia elétrica', kind:'norma', layer:'institucional', env:'NEUTRO', level:0, x:50,y:46,z:0, complexity:2, article:'Decreto nº 5.163, de 30 de julho de 2004', summary:'Regulamenta a comercialização de energia elétrica, o processo de outorga de concessões e de autorizações de geração de energia elétrica.' },
@@ -100,25 +100,25 @@ const allCategoryEdges = [
 ];
 const generatorNodes=[
   {id:'gen-root',title:'Decreto nº 5.163/2004',short:'Regras para quem gera e vende energia',detailText:'Para o gerador, o decreto conecta a outorga do empreendimento à comercialização da energia, à cobertura dos contratos e à apuração das obrigações no mercado.',kind:'norma',layer:'institucional',env:'AMBOS',level:0,x:50,y:50,z:0,article:'Decreto nº 5.163/2004'},
-  {id:'gen-outorga',title:'Empreendimento e outorga',short:'Como o gerador se habilita',detailText:'Concessões e autorizações definem o regime de implantação e exploração do empreendimento. A forma de outorga depende do projeto, do edital e da legislação aplicável.',kind:'conceito',layer:'institucional',env:'AMBOS',level:1,x:34,y:20,z:-55,article:'Arts. 11 a 13 e 60 a 63'},
-  {id:'gen-regimes',title:'Regime de geração',short:'Concessão ou autorização',detailText:'O decreto reconhece concessionários, permissionários e autorizados de geração como agentes vendedores. Autoprodutores podem comercializar excedentes de forma eventual e temporária, mediante autorização da ANEEL.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:12,y:6,z:-105,article:'Arts. 1º e 9º'},
-  {id:'gen-projetos',title:'Projeto novo e ampliação',short:'Enquadramento no leilão',detailText:'Para o ACR, é novo o empreendimento sem concessão, permissão ou autorização na data do edital; também pode ser novo o acréscimo de capacidade instalada de empreendimento existente. A EPE cadastra e habilita tecnicamente projetos para leilões de novos empreendimentos.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:12,y:20,z:-105,article:'Arts. 11 e 12'},
-  {id:'gen-termica',title:'Projeto termelétrico',short:'Disponibilidade de combustível',detailText:'A implantação de novo empreendimento termelétrico depende da comprovação de disponibilidade dos combustíveis necessários. A autorização pode exigir capacidade de operar com combustível substituto.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:12,y:34,z:-105,article:'Art. 61'},
-  {id:'gen-venda',title:'Onde vender',short:'ACR ou ACL',detailText:'O gerador pode comercializar energia no Ambiente de Contratação Regulada ou no Ambiente de Contratação Livre, observando as regras próprias de cada ambiente.',kind:'conceito',layer:'contratual',env:'AMBOS',level:1,x:66,y:20,z:-55,article:'Arts. 1º e 9º'},
-  {id:'gen-acr',title:'Venda no ACR',short:'Leilões de energia',detailText:'No ACR, a energia é contratada por leilões promovidos pela ANEEL, direta ou indiretamente. Geradores habilitados podem ofertar energia de empreendimentos novos ou existentes conforme o edital.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:88,y:6,z:-105,article:'Arts. 11, 12 e 19'},
-  {id:'gen-ccear',title:'Contrato CCEAR',short:'Gerador e distribuidoras',detailText:'Vencedores de leilões de energia de empreendimentos novos ou existentes formalizam CCEAR bilateral com os agentes de distribuição compradores. O contrato e o edital definem o produto, os montantes e o suprimento.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:88,y:20,z:-105,article:'Arts. 27 e 28'},
-  {id:'gen-modalidades',title:'Quantidade ou disponibilidade',short:'Alocação dos riscos',detailText:'No CCEAR por quantidade, o vendedor assume os riscos hidrológicos. No CCEAR por disponibilidade, esses riscos cabem aos compradores; a exposição financeira no curto prazo segue o tratamento previsto no contrato e nas regras aplicáveis.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:88,y:34,z:-105,article:'Art. 28'},
-  {id:'gen-acl',title:'Venda no ACL',short:'Contratos bilaterais',detailText:'No ACL, geradores e compradores negociam contratos bilaterais conforme as regras de comercialização. As condições comerciais são pactuadas entre as partes, e os contratos devem ser informados e registrados conforme o caso.',kind:'conceito',layer:'contratual',env:'ACL',level:2,x:88,y:48,z:-105,article:'Arts. 1º, 9º e 10'},
-  {id:'gen-lastro',title:'Lastro para vender',short:'Cobertura de 100% dos contratos',detailText:'O agente vendedor deve apresentar lastro para garantir cem por cento dos contratos de venda. O lastro pode vir da garantia física de geração própria ou de energia comprada de terceiros por contrato.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:1,x:34,y:80,z:-55,article:'Art. 2º, I e § 1º'},
-  {id:'gen-garantia',title:'Garantia física',short:'Limite para comercialização',detailText:'A garantia física representa a quantidade máxima de energia do empreendimento que pode ser usada para comprovar atendimento de carga ou comercialização por contratos. É definida pelo MME, calculada pela EPE segundo metodologias do MME e revisada periodicamente.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:25,y:57,z:-105,article:'Arts. 2º, §§ 2º e 3º, e 4º'},
-  {id:'gen-cobertura',title:'Balanço de contratos',short:'Geração própria ou compra',detailText:'A cobertura das vendas pode combinar geração própria e contratos de compra de energia. O gerador precisa acompanhar os montantes contratados e a disponibilidade do seu portfólio para manter lastro suficiente.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:25,y:70,z:-105,article:'Arts. 2º e 5º'},
-  {id:'gen-afericao',title:'Aferição e penalidades',short:'Verificação mensal pela CCEE',detailText:'A CCEE afere mensalmente as obrigações de lastro. O descumprimento pode sujeitar o agente às penalidades previstas na Convenção, nas Regras e nos Procedimentos de Comercialização.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:25,y:83,z:-105,article:'Art. 3º'},
-  {id:'gen-indisponibilidade',title:'Atraso ou indisponibilidade',short:'Proteção dos contratos de venda',detailText:'Se unidades não iniciarem operação no prazo ou ficarem indisponíveis e o vendedor não tiver lastro suficiente, poderá ser necessário comprar energia para cumprir as vendas originais, conforme os casos e prazos definidos pela ANEEL.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:25,y:96,z:-105,article:'Arts. 5º e 6º'},
-  {id:'gen-operacao',title:'Operação e liquidação',short:'Interface com CCEE e ONS',detailText:'A comercialização contratual se conecta à operação física do SIN e à contabilização do mercado. O decreto prevê contabilização e liquidação pela CCEE segundo as Regras e os Procedimentos de Comercialização.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:1,x:66,y:80,z:-55,article:'Arts. 58 e 59'},
-  {id:'gen-registro',title:'Registro dos contratos',short:'Informação e validação',detailText:'Contratos de comercialização devem ser informados, registrados, homologados ou aprovados pela ANEEL, conforme o caso. No ACL, os procedimentos da CCEE definem registro, validação e prazos operacionais.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:76,y:57,z:-105,article:'Art. 10 e Procedimentos CCEE'},
-  {id:'gen-curto-prazo',title:'Mercado de curto prazo',short:'Diferenças liquidadas ao PLD',detailText:'A contabilização identifica as quantidades comercializadas e liquidadas ao Preço de Liquidação das Diferenças (PLD). Exposições dependem da medição, dos contratos, das regras vigentes e do perfil de geração.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:76,y:70,z:-105,article:'Arts. 56 a 58'},
-  {id:'gen-riscos',title:'Reposição e risco de preço',short:'Responsabilidade do vendedor',detailText:'Quando precisa comprar energia para cobrir vendas originais por atraso ou indisponibilidade, o vendedor responde pelos contratos de compra e pelos riscos de diferença de preço entre submercados, conforme o decreto.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:76,y:83,z:-105,article:'Arts. 5º a 7º'},
-  {id:'gen-servicos',title:'Serviços ao sistema',short:'Encargos e serviços ancilares',detailText:'As regras de comercialização podem prever encargos para cobrir custos de serviços do sistema, inclusive serviços ancilares. O decreto também trata de serviços prestados por geradores, como reserva operativa e suporte à operação, conforme regras aplicáveis.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:76,y:96,z:-105,article:'Art. 59'},
+  {id:'gen-outorga',title:'Empreendimento e outorga',short:'Como o gerador se habilita',detailText:'Concessões e autorizações definem o regime de implantação e exploração do empreendimento. A forma de outorga depende do projeto, do edital e da legislação aplicável.',kind:'conceito',layer:'institucional',env:'AMBOS',level:1,x:39,y:25,z:-55,article:'Arts. 11 a 13 e 60 a 63'},
+  {id:'gen-regimes',title:'Regime de geração',short:'Concessão ou autorização',detailText:'O decreto reconhece concessionários, permissionários e autorizados de geração como agentes vendedores. Autoprodutores podem comercializar excedentes de forma eventual e temporária, mediante autorização da ANEEL.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:8,y:9,z:-105,article:'Arts. 1º e 9º'},
+  {id:'gen-projetos',title:'Projeto novo e ampliação',short:'Enquadramento no leilão',detailText:'Para o ACR, é novo o empreendimento sem concessão, permissão ou autorização na data do edital; também pode ser novo o acréscimo de capacidade instalada de empreendimento existente. A EPE cadastra e habilita tecnicamente projetos para leilões de novos empreendimentos.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:8,y:25,z:-105,article:'Arts. 11 e 12'},
+  {id:'gen-termica',title:'Projeto termelétrico',short:'Disponibilidade de combustível',detailText:'A implantação de novo empreendimento termelétrico depende da comprovação de disponibilidade dos combustíveis necessários. A autorização pode exigir capacidade de operar com combustível substituto.',kind:'conceito',layer:'institucional',env:'AMBOS',level:2,x:8,y:41,z:-105,article:'Art. 61'},
+  {id:'gen-venda',title:'Onde vender',short:'ACR ou ACL',detailText:'O gerador pode comercializar energia no Ambiente de Contratação Regulada ou no Ambiente de Contratação Livre, observando as regras próprias de cada ambiente.',kind:'conceito',layer:'contratual',env:'AMBOS',level:1,x:61,y:25,z:-55,article:'Arts. 1º e 9º'},
+  {id:'gen-acr',title:'Venda no ACR',short:'Leilões de energia',detailText:'No ACR, a energia é contratada por leilões promovidos pela ANEEL, direta ou indiretamente. Geradores habilitados podem ofertar energia de empreendimentos novos ou existentes conforme o edital.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:92,y:9,z:-105,article:'Arts. 11, 12 e 19'},
+  {id:'gen-ccear',title:'Contrato CCEAR',short:'Gerador e distribuidoras',detailText:'Vencedores de leilões de energia de empreendimentos novos ou existentes formalizam CCEAR bilateral com os agentes de distribuição compradores. O contrato e o edital definem o produto, os montantes e o suprimento.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:92,y:23,z:-105,article:'Arts. 27 e 28'},
+  {id:'gen-modalidades',title:'Quantidade ou disponibilidade',short:'Alocação dos riscos',detailText:'No CCEAR por quantidade, o vendedor assume os riscos hidrológicos. No CCEAR por disponibilidade, esses riscos cabem aos compradores; a exposição financeira no curto prazo segue o tratamento previsto no contrato e nas regras aplicáveis.',kind:'conceito',layer:'contratual',env:'ACR',level:2,x:92,y:37,z:-105,article:'Art. 28'},
+  {id:'gen-acl',title:'Venda no ACL',short:'Contratos bilaterais',detailText:'No ACL, geradores e compradores negociam contratos bilaterais conforme as regras de comercialização. As condições comerciais são pactuadas entre as partes, e os contratos devem ser informados e registrados conforme o caso.',kind:'conceito',layer:'contratual',env:'ACL',level:2,x:92,y:51,z:-105,article:'Arts. 1º, 9º e 10'},
+  {id:'gen-lastro',title:'Lastro para vender',short:'Cobertura de 100% dos contratos',detailText:'O agente vendedor deve apresentar lastro para garantir cem por cento dos contratos de venda. O lastro pode vir da garantia física de geração própria ou de energia comprada de terceiros por contrato.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:1,x:39,y:75,z:-55,article:'Art. 2º, I e § 1º'},
+  {id:'gen-garantia',title:'Garantia física',short:'Limite para comercialização',detailText:'A garantia física representa a quantidade máxima de energia do empreendimento que pode ser usada para comprovar atendimento de carga ou comercialização por contratos. É definida pelo MME, calculada pela EPE segundo metodologias do MME e revisada periodicamente.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:23,y:54,z:-105,article:'Arts. 2º, §§ 2º e 3º, e 4º'},
+  {id:'gen-cobertura',title:'Balanço de contratos',short:'Geração própria ou compra',detailText:'A cobertura das vendas pode combinar geração própria e contratos de compra de energia. O gerador precisa acompanhar os montantes contratados e a disponibilidade do seu portfólio para manter lastro suficiente.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:23,y:66,z:-105,article:'Arts. 2º e 5º'},
+  {id:'gen-afericao',title:'Aferição e penalidades',short:'Verificação mensal pela CCEE',detailText:'A CCEE afere mensalmente as obrigações de lastro. O descumprimento pode sujeitar o agente às penalidades previstas na Convenção, nas Regras e nos Procedimentos de Comercialização.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:23,y:78,z:-105,article:'Art. 3º'},
+  {id:'gen-indisponibilidade',title:'Atraso ou indisponibilidade',short:'Proteção dos contratos de venda',detailText:'Se unidades não iniciarem operação no prazo ou ficarem indisponíveis e o vendedor não tiver lastro suficiente, poderá ser necessário comprar energia para cumprir as vendas originais, conforme os casos e prazos definidos pela ANEEL.',kind:'conceito',layer:'penalidades',env:'AMBOS',level:2,x:23,y:90,z:-105,article:'Arts. 5º e 6º'},
+  {id:'gen-operacao',title:'Operação e liquidação',short:'Interface com CCEE e ONS',detailText:'A comercialização contratual se conecta à operação física do SIN e à contabilização do mercado. O decreto prevê contabilização e liquidação pela CCEE segundo as Regras e os Procedimentos de Comercialização.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:1,x:61,y:75,z:-55,article:'Arts. 58 e 59'},
+  {id:'gen-registro',title:'Registro dos contratos',short:'Informação e validação',detailText:'Contratos de comercialização devem ser informados, registrados, homologados ou aprovados pela ANEEL, conforme o caso. No ACL, os procedimentos da CCEE definem registro, validação e prazos operacionais.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:77,y:54,z:-105,article:'Art. 10 e Procedimentos CCEE'},
+  {id:'gen-curto-prazo',title:'Mercado de curto prazo',short:'Diferenças liquidadas ao PLD',detailText:'A contabilização identifica as quantidades comercializadas e liquidadas ao Preço de Liquidação das Diferenças (PLD). Exposições dependem da medição, dos contratos, das regras vigentes e do perfil de geração.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:77,y:66,z:-105,article:'Arts. 56 a 58'},
+  {id:'gen-riscos',title:'Reposição e risco de preço',short:'Responsabilidade do vendedor',detailText:'Quando precisa comprar energia para cobrir vendas originais por atraso ou indisponibilidade, o vendedor responde pelos contratos de compra e pelos riscos de diferença de preço entre submercados, conforme o decreto.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:77,y:78,z:-105,article:'Arts. 5º a 7º'},
+  {id:'gen-servicos',title:'Serviços ao sistema',short:'Encargos e serviços ancilares',detailText:'As regras de comercialização podem prever encargos para cobrir custos de serviços do sistema, inclusive serviços ancilares. O decreto também trata de serviços prestados por geradores, como reserva operativa e suporte à operação, conforme regras aplicáveis.',kind:'conceito',layer:'leiloes',env:'AMBOS',level:2,x:77,y:90,z:-105,article:'Art. 59'},
 ];
 const generatorEdges=[
   ['gen-root','gen-outorga'],['gen-root','gen-venda'],['gen-root','gen-lastro'],['gen-root','gen-operacao'],
@@ -128,7 +128,7 @@ const generatorEdges=[
   ['gen-operacao','gen-registro'],['gen-operacao','gen-curto-prazo'],['gen-operacao','gen-riscos'],['gen-operacao','gen-servicos'],
 ];
 const layerLabels = {institucional:'Institucional',contratual:'Contratual',penalidades:'Penalidades',leiloes:'Leilões'};
-const personas = [{id:'todos',label:'Todos',icon:Eye},{id:'operacional',label:'Operacional',icon:GitBranch},{id:'gerador',label:'Gerador',icon:Zap},{id:'distribuidor',label:'Distribuidor',icon:Building2},{id:'consumidor',label:'Consumidor livre',icon:Factory}];
+const personas = [{id:'todos',label:'Todos',icon:Eye},{id:'operacional',label:'Operacional',icon:GitBranch},{id:'gerador',label:'Gerador',icon:Zap}];
 const nodeInsights = {
   root:'O decreto estrutura a comercialização de energia e trata de concessões e autorizações de geração. Consulte sempre a versão consolidada e as normas posteriores relacionadas.',
   instituicoes:'A regulação distribui responsabilidades entre órgãos e agentes do setor. ANEEL regula e fiscaliza; CCEE viabiliza a contabilização e liquidação das operações; ONS coordena a operação do sistema.',
@@ -246,6 +246,31 @@ export default function App(){
         return {...n,x:Math.max(edgePadding,Math.min(100-edgePadding,x)),y};
       });
     }
+    if(persona==='gerador'&&mode==='2D'){
+      const columns=new Map();
+      activeNodes.forEach(node=>{
+        const key=`${node.x}:${node.y<53?'upper':'lower'}`;
+        const column=columns.get(key)||[];
+        column.push(node);
+        columns.set(key,column);
+      });
+      const columnY=new Map();
+      columns.forEach(column=>{
+        if(column.length<2)return;
+        column.sort((a,b)=>a.y-b.y);
+        const heights=column.map(node=>nodeHeights[node.id]||64);
+        const gap=18;
+        const contentHeight=heights.reduce((sum,height)=>sum+height,0)+gap*(column.length-1);
+        const center=column.reduce((sum,node)=>sum+node.y,0)/column.length/100*stageSize.height;
+        const top=Math.max(12,Math.min(stageSize.height-contentHeight-12,center-contentHeight/2));
+        let cursor=top;
+        column.forEach((node,index)=>{
+          columnY.set(node.id,(cursor+heights[index]/2)/stageSize.height*100);
+          cursor+=heights[index]+gap;
+        });
+      });
+      return activeNodes.map(node=>({...node,y:columnY.get(node.id)??node.y}));
+    }
     if(mode!=='3D')return activeNodes;
     const spreadX=Math.min(1.3,Math.max(1,1500/stageSize.width));
     const sidePadding=Math.min(18,(125/stageSize.width)*100);
@@ -254,9 +279,10 @@ export default function App(){
     if(persona==='todos'||persona==='operacional'||persona==='gerador'){
       const columns=new Map();
       activeNodes.forEach(n=>{
-        const column=columns.get(n.x)||[];
+        const columnKey=persona==='gerador'?`${n.x}:${n.y<53?'upper':'lower'}`:n.x;
+        const column=columns.get(columnKey)||[];
         column.push(n);
-        columns.set(n.x,column);
+        columns.set(columnKey,column);
       });
       columns.forEach(column=>{
         if(column.length<2)return;
@@ -276,7 +302,7 @@ export default function App(){
         }
         if(persona==='gerador'&&turnedOver){
           const heights=column.map(n=>nodeHeights[n.id]||Math.max(78,42+(n.detailText||'').split('\n').reduce((total,line)=>total+Math.max(1,Math.ceil(line.length/31)),0)*12));
-          const gap=25;
+          const gap=18;
           const contentHeight=heights.reduce((sum,height)=>sum+height,0)+gap*(column.length-1);
           const center=column.reduce((sum,n)=>sum+n.y,0)/column.length/100*stageSize.height;
           const top=Math.max(35,Math.min(stageSize.height-contentHeight-35,center-contentHeight/2));
@@ -309,7 +335,7 @@ export default function App(){
   },[mode,stageSize,camera.x,camera.y,zoom,persona,activeNodes,nodeHeights,operationalStageHeight]);
   const positionedById=useMemo(()=>new Map(positionedNodes.map(n=>[n.id,n])),[positionedNodes]);
   useLayoutEffect(()=>{
-    if(!((persona==='operacional'&&mode==='3D'&&backFacing)||(persona==='gerador'&&mode==='3D'&&backFacing)))return;
+    if(!(persona==='operacional'&&mode==='3D'&&backFacing)&&persona!=='gerador')return;
     const next={};
     activeNodes.forEach(node=>{
       const element=nodeElements.current.get(node.id);
